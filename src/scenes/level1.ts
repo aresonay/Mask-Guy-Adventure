@@ -31,11 +31,23 @@ export default class Level1 extends Phaser.Scene
             'Vidas -',
             {fontSize: '32px', color: '#FFFFFF'}).setInteractive();
 
+        const livesTxtAdd: Phaser.GameObjects.Text = this.add.text(
+            this.width / 2,
+            this.height / 2 - 100,
+            'Vidas +',
+            {fontSize: '32px', color: '#FFFFFF'}).setInteractive();
+
         livesTxt.on('pointerdown', () => {
             this.lives--;
             this.registry.set('lives', this.lives);
             this.events.emit('changelives');
 
+        });
+
+        livesTxtAdd.on('pointerdown', () => {
+            this.lives++;
+            this.registry.set('lives', this.lives);
+            this.events.emit('changelives');
         });
 
 

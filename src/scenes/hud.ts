@@ -16,6 +16,7 @@ export default class HUD extends Phaser.Scene {
 
     private updateLives(): void {
         this.livesTxt.text = "Vidas: " + this.registry.get('lives');
+
     }
 
 
