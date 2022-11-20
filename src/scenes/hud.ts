@@ -1,3 +1,5 @@
+import Global from "../global";
+
 export default class HUD extends Phaser.Scene {
 
     private livesTxt : Phaser.GameObjects.Text;
@@ -9,7 +11,7 @@ export default class HUD extends Phaser.Scene {
 
 
     constructor(){
-        super('HUD');
+        super(Global.SCENES.HUD);
     }
 
     init(){
@@ -19,10 +21,10 @@ export default class HUD extends Phaser.Scene {
 
     create(): void{
         const level1 : Phaser.Scene = this.scene.get('Level1');
-        level1.events.on('changelives', this.updateLives, this);
-        level1.events.on('updateScore', this.updateScore, this);
+        level1.events.on(Global.EVENTS.LIVES, this.updateLives, this);
+        level1.events.on(Global.EVENTS.SCORE, this.updateScore, this);
 
-        this.livesTxt = this.add.text(20, 20, 'Vidas: 3', {fontSize: '32px', color: '#FFFFFF'});
+        this.livesTxt = this.add.text(20, 20, Global.HUD.LIVES + this.registry.get(Global.REGISTRY.LIVES), {fontSize: '32px', color: '#FFFFFF'});
         this.scoreTxt = this.add.text(this.width - 50,  20, '000', {fontSize: '20px', color: '#FFFFFF'})
     }
 

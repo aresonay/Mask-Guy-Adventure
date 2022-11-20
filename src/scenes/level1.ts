@@ -1,3 +1,5 @@
+import Global from "../global";
+
 export default class Level1 extends Phaser.Scene
 {
     private width: number;
@@ -7,7 +9,7 @@ export default class Level1 extends Phaser.Scene
 
     constructor ()
     {
-        super('Level1');
+        super(Global.SCENES.LEVEL1);
     }
 
     init(){
@@ -15,6 +17,8 @@ export default class Level1 extends Phaser.Scene
         this.height = this.cameras.main.height;
         this.lives = 3;
         this.score = 0;
+        this.registry.set(Global.REGISTRY.LIVES, this.lives);
+        this.registry.set(Global.REGISTRY.SCORE, this.score);
     }
 
 
@@ -43,14 +47,14 @@ export default class Level1 extends Phaser.Scene
         livesTxt.on('pointerdown', () => {
             this.lives--;
             this.registry.set('lives', this.lives);
-            this.events.emit('changelives');
+            this.events.emit(Global.EVENTS.LIVES);
 
         });
 
         scoreTxt.on('pointerdown', () => {
             this.score++;
             this.registry.set('score', this.score);
-            this.events.emit('updateScore');
+            this.events.emit(Global.EVENTS.SCORE);
         });
 
 

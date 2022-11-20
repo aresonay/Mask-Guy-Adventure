@@ -1,10 +1,11 @@
+import Global from "../global";
 export default class Menu extends Phaser.Scene {
 
     private width: number;
     private height: number;
 
     constructor(){
-        super('Menu'); 
+        super(Global.SCENES.MENU); 
     }
 
     init(){
@@ -18,7 +19,7 @@ export default class Menu extends Phaser.Scene {
         const playTxt : Phaser.GameObjects.Text = this.add.text(
             50,
             this.height / 2, 
-            'JUGAR',
+            Global.MENU.PLAY,
             {fontSize: '32px',
             color: '#FFFFFF'}).setInteractive();
 
@@ -28,8 +29,8 @@ export default class Menu extends Phaser.Scene {
     changeScene(playTxt: Phaser.GameObjects.Text, scene: string) {
         playTxt.on('pointerdown', () => {
             this.scene.start(scene);
-            this.scene.start('HUD');
-            this.scene.bringToTop('HUD');
+            this.scene.start(Global.SCENES.HUD);
+            this.scene.bringToTop(Global.SCENES.HUD);
         });
     }
 }
