@@ -16,17 +16,17 @@ export default class Menu extends Phaser.Scene {
     create(){
         const logo = this.add.image(this.width / 2, 70, 'logo1');
 
-        const playTxt : Phaser.GameObjects.Text = this.add.text(
+        const playTxt : Phaser.GameObjects.BitmapText = this.add.bitmapText(
             50,
             this.height / 2, 
+            Global.FONTS.BITMAP,
             Global.MENU.PLAY,
-            {fontSize: '32px',
-            color: '#FFFFFF'}).setInteractive();
+            25).setInteractive();
 
         this.changeScene(playTxt, 'Level1');
     }
 
-    changeScene(playTxt: Phaser.GameObjects.Text, scene: string) {
+    changeScene(playTxt: Phaser.GameObjects.BitmapText, scene: string) {
         playTxt.on('pointerdown', () => {
             this.scene.start(scene);
             this.scene.start(Global.SCENES.HUD);

@@ -1,4 +1,5 @@
 import Config from "../config";
+import Global from "../global";
 
 export default class Load extends Phaser.Scene {
     //Loading bar 
@@ -6,7 +7,7 @@ export default class Load extends Phaser.Scene {
     private progressBar : Phaser.GameObjects.Graphics;
 
     constructor(){
-        super('Load');
+        super(Global.SCENES.LOAD);
     }
 
 
@@ -31,14 +32,29 @@ export default class Load extends Phaser.Scene {
 
 
         this.load.on(
-            'complete', 
-            function() {
-                this.scene.start('Menu');
+            'complete', () => {
+                const fontJSON = this.cache.json.get(Global.FONTS.JSON);
+                this.cache.bitmapFont.add(Global.FONTS.BITMAP, Phaser.GameObjects.RetroFont.Parse(this, fontJSON));
+
+                this.scene.start(Global.SCENES.MENU);
             }, this);   
 
-        for(let i=1; i <= 100; i++){
-            this.load.image('logo' + i, 'assets/phaser3-logo.png');
-        }
+    
+            this.load.image('logo1','assets/phaser3-logo.png');
+        
+            // Maps Loading
+            this.load.tilemapTiledJSON(Global.MAPS.LEVEL1.TILEMAPJSON, 'assets/level1.json');
+            this.load.image(Global.MAPS.TILESET, 'assets/tileset.png');
+
+            // Background loading
+            this.load.image(Global.BACKGROUNDS.LEVEL1, 'assets/backgrounds/Brown.png');
+
+            // Fonts Loading 
+            this.load.json(Global.FONTS.JSON, 'assets/fonts/font.json');
+            this.load.image(Global.FONTS.IMAGE, 'assets/fonts/fontPixel.png');
+
+            // Player Loading
+            this.load.atlas(Global.PLAYER.ID, 'assets/animations/maskdude.png', 'assets/animations/maskdude.json');
         
 
     }

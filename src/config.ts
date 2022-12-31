@@ -9,7 +9,16 @@ const Config = {
     backgroundColor: '#125555',
     width: 800,
     height: 600,
-    scene: [Load, Menu, Level1, HUD]
+    scene: [Load, Menu, Level1, HUD],
+    pixelArt: true,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 600 },
+            debug: true
+        }
+
+    }
 };
 
 export default Config;

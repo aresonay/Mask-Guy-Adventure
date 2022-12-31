@@ -20,7 +20,7 @@ export default class HUD extends Phaser.Scene {
     }
 
     create(): void{
-        const level1 : Phaser.Scene = this.scene.get('Level1');
+        const level1 : Phaser.Scene = this.scene.get(Global.SCENES.LEVEL1);
         level1.events.on(Global.EVENTS.LIVES, this.updateLives, this);
         level1.events.on(Global.EVENTS.SCORE, this.updateScore, this);
 

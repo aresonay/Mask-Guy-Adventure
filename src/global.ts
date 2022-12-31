@@ -10,6 +10,7 @@ const Global = {
         LIVES: 'Vidas: '
     }, 
     SCENES:{
+        LOAD: 'Load',
         MENU: 'Menu',
         LEVEL1: 'Level1',
         HUD: 'HUD'
@@ -18,6 +19,29 @@ const Global = {
     REGISTRY:{
         LIVES: 'lives',
         SCORE: 'score'
+    },
+    MAPS:{
+        LEVEL1:{
+            TILEMAPJSON: 'level1Map',
+            LAYERPLATFORMS: 'Platforms',
+        },
+        TILESET: 'tileset'
+    },
+    BACKGROUNDS: {
+        LEVEL1: 'Brown'
+    },
+    FONTS: {
+        JSON: 'font',
+        IMAGE: 'fontPixel',
+        BITMAP: 'fontPixel'
+    }, 
+    PLAYER: {
+        ID: 'playerAtlas', 
+        ANIMATIONS: {
+            IDLE: 'idle',
+            RUN: 'run',
+            JUMP: 'jump-0'
+        }
     }
 }
 
