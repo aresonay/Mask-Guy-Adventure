@@ -1,4 +1,5 @@
 import Global from "../global";
+import Player from "../game_objects/player";
 
 export default class Level1 extends Phaser.Scene
 {
@@ -13,7 +14,10 @@ export default class Level1 extends Phaser.Scene
 
     private background: Phaser.GameObjects.TileSprite;
 
-    private player: Phaser.Physics.Arcade.Sprite;
+    private player: Player;
+
+   
+
 
     constructor ()
     {
@@ -81,18 +85,41 @@ export default class Level1 extends Phaser.Scene
             Global.BACKGROUNDS.LEVEL1).setOrigin(0, 0).setDepth(-1);
 
         // Animations
+
+        // IDLE
         this.anims.create({
             key: Global.PLAYER.ANIMATIONS.IDLE, 
             frames: this.anims.generateFrameNames(Global.PLAYER.ID, {prefix: Global.PLAYER.ANIMATIONS.IDLE + '-', end: 11}),
             frameRate: 20, // Number of frames per second for anim
             repeat: -1 // Infinite loop
         });
+
+
+        // RUN 
+        this.anims.create({
+            key: Global.PLAYER.ANIMATIONS.RUN,
+            frames: this.anims.generateFrameNames(Global.PLAYER.ID, {prefix: Global.PLAYER.ANIMATIONS.RUN + '-', end: 12}),
+            frameRate: 20,
+            repeat: -1
+        });
+
         
-        
-        this.player = this.physics.add.sprite(80,80, Global.PLAYER.ID).play(Global.PLAYER.ANIMATIONS.IDLE);
+        // Player 
+        this.player = new Player({
+            scene: this,
+            x: 80,
+            y: 80,
+            texture: Global.PLAYER.ID
+        });
+
+                           
         
         // Collider for player 
         this.physics.add.collider(this.player, this.layerMapLevel);
+
+
+
+
 
     }
 
@@ -105,5 +132,9 @@ export default class Level1 extends Phaser.Scene
             this.scene.stop(Global.SCENES.HUD);
             this.scene.start(Global.SCENES.MENU);
         }
+
+        this.player.update();
+
+        
     }
 }
