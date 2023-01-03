@@ -25,7 +25,8 @@ const Global = {
             TILEMAPJSON: 'level1Map',
             LAYERPLATFORMS: 'Platforms',
         },
-        TILESET: 'tileset'
+        TILESET: 'tileset',
+        FINALPOSITION: 'finalPosition'
     },
     BACKGROUNDS: {
         LEVEL1: 'Brown'
@@ -36,12 +37,15 @@ const Global = {
         BITMAP: 'fontPixel'
     }, 
     PLAYER: {
-        ID: 'playerAtlas', 
+        ID: 'player', 
         ANIMATIONS: {
             IDLE: 'idle',
             RUN: 'run',
             JUMP: 'jump-0'
         }
+    },
+    OBJECTS:{
+        FINAL: 'final'
     }
 }
 

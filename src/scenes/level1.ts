@@ -36,42 +36,27 @@ export default class Level1 extends Phaser.Scene
 
     create ()
     {  
-        const logo = this.add.image(400, 70, 'logo1');
-
-        const playTxt: Phaser.GameObjects.Text = this.add.text(
-            50, 
-            this.height / 2, 
-            'Jugando....',
-            {fontSize: '32px', color: '#FFFFFF'});
-        const livesTxt: Phaser.GameObjects.Text = this.add.text(
-            this.width / 2, 
-            this.height / 2, 
-            'Vidas -',
-            {fontSize: '32px', color: '#FFFFFF'}).setInteractive();
-
-        const scoreTxt: Phaser.GameObjects.Text = this.add.text(
-            this.width / 2,
-            this.height / 2 + 100,
-            'Score', 
-            {fontSize: '32px', color: '#FFFFFF'} 
-        ).setInteractive();
-
-        livesTxt.on('pointerdown', () => {
-            this.lives--;
-            this.registry.set('lives', this.lives);
-            this.events.emit(Global.EVENTS.LIVES);
-
-        });
-
-        scoreTxt.on('pointerdown', () => {
-            this.score++;
-            this.registry.set('score', this.score);
-            this.events.emit(Global.EVENTS.SCORE);
-        });
-
         
         // Tilemap load
         this.tileMap = this.make.tilemap({key: Global.MAPS.LEVEL1.TILEMAPJSON, tileWidth: 16, tileHeight: 16});
+        this.physics.world.bounds.setTo(0,0, this.tileMap.widthInPixels, this.tileMap.heightInPixels);
+
+
+        // Load Player on scene 
+        this.tileMap.findObject(Global.PLAYER.ID, (d:any) => {
+            this.player = new Player({
+                scene: this, 
+                x:d.x,
+                y:d.y,
+                texture: Global.PLAYER.ID
+            });
+        });
+
+
+        // Cameras following player 
+        this.cameras.main.setBounds(0,0, this.tileMap.widthInPixels, this.tileMap.heightInPixels);
+        this.cameras.main.startFollow(this.player);
+
         this.tileSet = this.tileMap.addTilesetImage(Global.MAPS.TILESET);
         this.layerMapLevel = this.tileMap.createLayer(Global.MAPS.LEVEL1.LAYERPLATFORMS, this.tileSet);
         // Collision for layer 
@@ -84,7 +69,7 @@ export default class Level1 extends Phaser.Scene
             this.tileMap.heightInPixels,
             Global.BACKGROUNDS.LEVEL1).setOrigin(0, 0).setDepth(-1);
 
-        // Animations
+         // Animations
 
         // IDLE
         this.anims.create({
@@ -104,20 +89,30 @@ export default class Level1 extends Phaser.Scene
         });
 
         
-        // Player 
-        this.player = new Player({
-            scene: this,
-            x: 80,
-            y: 80,
-            texture: Global.PLAYER.ID
-        });
 
-                           
         
         // Collider for player 
         this.physics.add.collider(this.player, this.layerMapLevel);
 
 
+        // Final Position Sprite
+        let finalObject : any = this.tileMap.createFromObjects(
+            Global.MAPS.FINALPOSITION,
+            {name: Global.MAPS.FINALPOSITION})[0];
+
+        this.physics.world.enable(finalObject);
+        finalObject.body.setAllowGravity(false);
+        finalObject.setTexture(Global.OBJECTS.FINAL);
+        finalObject.body.setSize(40,50);
+        finalObject.body.setOffset(10,15);
+
+
+        // Collision for final Sprite, and ending level 
+        this.physics.add.collider(this.player, finalObject, () => {
+            this.scene.stop(Global.SCENES.LEVEL1);
+            this.scene.stop(Global.SCENES.HUD);
+            this.scene.start(Global.SCENES.MENU);
+        });
 
 
 

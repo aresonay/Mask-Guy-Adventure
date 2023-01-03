@@ -57,6 +57,9 @@ export default class Load extends Phaser.Scene {
             this.load.atlas(Global.PLAYER.ID, 'assets/animations/maskdude.png', 'assets/animations/maskdude.json');
         
 
+            // Final Object
+            this.load.image(Global.OBJECTS.FINAL, 'assets/images/final.png');
+
     }
 
 

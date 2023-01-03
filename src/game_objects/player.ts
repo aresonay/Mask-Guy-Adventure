@@ -27,12 +27,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
         this.WASDkeys = this.scene.input.keyboard.addKeys('W,A,S,D');
         this.spaceKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
    
+        
         this.play(Global.PLAYER.ANIMATIONS.IDLE);
-   
    
     }
 
+
+
     update(): void {
+        
         // Motion control 
         if(this.WASDkeys.A.isDown || this.cursors.left.isDown){
             this.setVelocityX(-200);
