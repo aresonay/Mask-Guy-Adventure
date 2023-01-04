@@ -16,6 +16,11 @@ export default class Level1 extends Phaser.Scene
 
     private player: Player;
 
+    // Level Time 
+    private seconds: number;
+    private timeRemaining: number;
+    private timeOut: boolean;
+
    
 
 
@@ -31,6 +36,10 @@ export default class Level1 extends Phaser.Scene
         this.score = 0;
         this.registry.set(Global.REGISTRY.LIVES, this.lives);
         this.registry.set(Global.REGISTRY.SCORE, this.score);
+        this.seconds = 1;
+        this.timeRemaining = 10;
+        this.timeOut = false;
+
     }
 
 
@@ -119,7 +128,7 @@ export default class Level1 extends Phaser.Scene
     }
 
 
-    update(): void {
+    update(time): void {
         this.background.tilePositionY -= 0.4;
 
         if(parseInt(this.registry.get(Global.REGISTRY.LIVES)) === 0){
@@ -129,6 +138,32 @@ export default class Level1 extends Phaser.Scene
         }
 
         this.player.update();
+
+        // Time management 
+        if((this.seconds != Math.floor(Math.abs(time / 1000))) && !this.timeOut){
+            this.seconds = Math.floor(Math.abs(time / 1000));
+            this.timeRemaining--;
+
+            let minutes: number  = Math.floor(this.timeRemaining / 60);
+            let seconds: number = Math.floor(this.timeRemaining - (minutes * 60));
+
+            // Clock layout setting 
+            let textClock: string = Phaser.Utils.String.Pad(minutes, 2, '0', 1) 
+                        + ":" 
+                        + Phaser.Utils.String.Pad(seconds, 2, '0', 1);
+
+            // Register
+            this.registry.set(Global.REGISTRY.CLOCK, textClock);
+            // To send to HUD
+            this.events.emit(Global.EVENTS.CLOCK);
+
+            if(this.timeRemaining == 0){
+                this.timeOut = true;
+                this.scene.stop(Global.SCENES.LEVEL1);
+                this.scene.stop(Global.SCENES.HUD);
+                this.scene.start(Global.SCENES.MENU);
+            }
+        }
 
         
     }

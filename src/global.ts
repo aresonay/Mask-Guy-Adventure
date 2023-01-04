@@ -1,7 +1,8 @@
 const Global = {
     EVENTS:{
         LIVES: 'changelives',
-        SCORE: 'updateScore'
+        SCORE: 'updateScore',
+        CLOCK: 'clock'
     },
     MENU:{
         PLAY: 'JUGAR'
@@ -18,7 +19,8 @@ const Global = {
     }, 
     REGISTRY:{
         LIVES: 'lives',
-        SCORE: 'score'
+        SCORE: 'score',
+        CLOCK: 'clock'
     },
     MAPS:{
         LEVEL1:{

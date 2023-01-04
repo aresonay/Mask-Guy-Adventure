@@ -4,6 +4,7 @@ export default class HUD extends Phaser.Scene {
 
     private livesTxt : Phaser.GameObjects.Text;
     private scoreTxt: Phaser.GameObjects.Text;
+    private clockTxt: Phaser.GameObjects.Text;
     
     private width: number;
     private height: number;
@@ -23,9 +24,12 @@ export default class HUD extends Phaser.Scene {
         const level1 : Phaser.Scene = this.scene.get(Global.SCENES.LEVEL1);
         level1.events.on(Global.EVENTS.LIVES, this.updateLives, this);
         level1.events.on(Global.EVENTS.SCORE, this.updateScore, this);
+        level1.events.on(Global.EVENTS.CLOCK, this.updateClock, this);
 
         this.livesTxt = this.add.text(20, 20, Global.HUD.LIVES + this.registry.get(Global.REGISTRY.LIVES), {fontSize: '32px', color: '#FFFFFF'});
-        this.scoreTxt = this.add.text(this.width - 50,  20, '000', {fontSize: '20px', color: '#FFFFFF'})
+        this.scoreTxt = this.add.text(this.width - 50,  20, '000', {fontSize: '20px', color: '#FFFFFF'});
+
+        this.clockTxt = this.add.text(this.width / 2, 20, '05:00', {fontSize: '20px', color: '#FFFFFF'});
     }
 
     private updateLives(): void {
@@ -38,4 +42,7 @@ export default class HUD extends Phaser.Scene {
     }
 
 
+    private updateClock(): void{
+        this.clockTxt.text = this.registry.get(Global.REGISTRY.CLOCK);
+    }
 }
