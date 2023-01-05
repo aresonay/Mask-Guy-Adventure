@@ -60,6 +60,12 @@ export default class Load extends Phaser.Scene {
             // Final Object
             this.load.image(Global.OBJECTS.FINAL, 'assets/images/final.png');
 
+            // Enemies 
+            this.load.spritesheet(Global.ENEMIES.BUNNY.ID, 'assets/images/enemies/bunny.png', {frameWidth: 34, frameHeight: 44});        
+            this.load.spritesheet(Global.ENEMIES.CHICKEN.ID, 'assets/images/enemies/chicken.png', {frameWidth: 32, frameHeight: 34});
+            this.load.spritesheet(Global.ENEMIES.MUSHROOM.ID, 'assets/images/enemies/mushroom.png', {frameWidth: 32, frameHeight: 32});
+            this.load.spritesheet(Global.ENEMIES.RADISH.ID, 'assets/images/enemies/radish.png', {frameWidth: 30, frameHeight: 38});
+
     }
 
 

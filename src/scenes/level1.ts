@@ -1,5 +1,6 @@
 import Global from "../global";
 import Player from "../game_objects/player";
+import Enemies from "../game_objects/enemies";
 
 export default class Level1 extends Phaser.Scene
 {
@@ -8,7 +9,7 @@ export default class Level1 extends Phaser.Scene
     private lives: number;
     private score: number;
 
-    private tileMap: Phaser.Tilemaps.Tilemap;
+    public tileMap: Phaser.Tilemaps.Tilemap;
     private tileSet: Phaser.Tilemaps.Tileset;
     private layerMapLevel: Phaser.Tilemaps.TilemapLayer;
 
@@ -20,6 +21,9 @@ export default class Level1 extends Phaser.Scene
     private seconds: number;
     private timeRemaining: number;
     private timeOut: boolean;
+
+    // Enemies
+    private bunnyGroup : Enemies;
 
    
 
@@ -83,7 +87,7 @@ export default class Level1 extends Phaser.Scene
         // IDLE
         this.anims.create({
             key: Global.PLAYER.ANIMATIONS.IDLE, 
-            frames: this.anims.generateFrameNames(Global.PLAYER.ID, {prefix: Global.PLAYER.ANIMATIONS.IDLE + '-', end: 11}),
+            frames: this.anims.generateFrameNames(Global.PLAYER.ID, {prefix: Global.PLAYER.ANIMATIONS.IDLE + '-', end: 10}),
             frameRate: 20, // Number of frames per second for anim
             repeat: -1 // Infinite loop
         });
@@ -92,7 +96,7 @@ export default class Level1 extends Phaser.Scene
         // RUN 
         this.anims.create({
             key: Global.PLAYER.ANIMATIONS.RUN,
-            frames: this.anims.generateFrameNames(Global.PLAYER.ID, {prefix: Global.PLAYER.ANIMATIONS.RUN + '-', end: 12}),
+            frames: this.anims.generateFrameNames(Global.PLAYER.ID, {prefix: Global.PLAYER.ANIMATIONS.RUN + '-', end: 11}),
             frameRate: 20,
             repeat: -1
         });
@@ -124,6 +128,14 @@ export default class Level1 extends Phaser.Scene
         });
 
 
+        this.bunnyGroup = new Enemies(
+            this,
+            Global.MAPS.ENEMIES,
+            Global.ENEMIES.BUNNY.ID,
+            Global.ENEMIES.BUNNY.ANIM,
+            Global.ENEMIES.BUNNY.SPEED);
+
+        this.physics.add.collider(this.bunnyGroup, this.layerMapLevel);
 
     }
 

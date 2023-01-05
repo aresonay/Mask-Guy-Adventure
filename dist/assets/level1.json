@@ -115,6 +115,41 @@
         }, 
         {
          "draworder":"topdown",
+         "id":4,
+         "name":"enemies",
+         "objects":[
+                {
+                 "class":"",
+                 "height":0,
+                 "id":6,
+                 "name":"bunny",
+                 "point":true,
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":274,
+                 "y":51
+                }, 
+                {
+                 "class":"",
+                 "height":0,
+                 "id":7,
+                 "name":"bunny",
+                 "point":true,
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":137,
+                 "y":100
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":2,
          "name":"player",
          "objects":[
@@ -127,8 +162,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":0,
-                 "x":454.666666666667,
-                 "y":66.6666666666667
+                 "x":449.666666666667,
+                 "y":89.6666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -159,8 +194,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":4,
- "nextobjectid":6,
+ "nextlayerid":5,
+ "nextobjectid":9,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
