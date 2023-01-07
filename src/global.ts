@@ -29,7 +29,11 @@ const Global = {
         },
         TILESET: 'tileset',
         FINALPOSITION: 'finalPosition',
-        ENEMIES: 'enemies'
+        ENEMIES: 'enemies',
+        MOVINGPLATFORMS: 'moving-platforms',
+        MOVINGPLATFORM_Y: 'vertical',
+        MOVINGPLATFORM_X: 'horizontal'
+
     },
     BACKGROUNDS: {
         LEVEL1: 'Brown'
@@ -70,7 +74,16 @@ const Global = {
             ID: 'radish',
             ANIM: 'radishRun',
             SPEED: 100
-        }
+        },
+        EXPLOSION:{
+            ID: 'explosion',
+            ANIM: 'explode'
+        },
+     
+    },
+    MOVINGPLATFORM:{
+        ID:'moving-platform',
+        SPEED: 60
     }
 }
 

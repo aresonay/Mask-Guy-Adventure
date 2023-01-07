@@ -1,13 +1,14 @@
 import Global from "../global";
 import Player from "../game_objects/player";
 import Enemies from "../game_objects/enemies";
+import MovingPlatforms from "../game_objects/moving-platforms";
 
 export default class Level1 extends Phaser.Scene
 {
     private width: number;
     private height: number;
-    private lives: number;
-    private score: number;
+    public lives: number;
+    public score: number;
 
     public tileMap: Phaser.Tilemaps.Tilemap;
     private tileSet: Phaser.Tilemaps.Tileset;
@@ -24,8 +25,19 @@ export default class Level1 extends Phaser.Scene
 
     // Enemies
     private bunnyGroup : Enemies;
+    private chickenGroup: Enemies;
 
-   
+    // Moving Platforms 
+    private movingPlatformsX: MovingPlatforms;
+    private movingPlatformsY: MovingPlatforms;
+
+    public increaseScore(increasement: number): void {
+        this.score += increasement;
+    }
+
+    public getScore(): number{
+        return this.score;
+    }
 
 
     constructor ()
@@ -41,7 +53,7 @@ export default class Level1 extends Phaser.Scene
         this.registry.set(Global.REGISTRY.LIVES, this.lives);
         this.registry.set(Global.REGISTRY.SCORE, this.score);
         this.seconds = 1;
-        this.timeRemaining = 10;
+        this.timeRemaining = 99;
         this.timeOut = false;
 
     }
@@ -101,6 +113,14 @@ export default class Level1 extends Phaser.Scene
             repeat: -1
         });
 
+
+        // EXPLOSION
+        this.anims.create({
+            key: Global.ENEMIES.EXPLOSION.ANIM, 
+            frames: Global.ENEMIES.EXPLOSION.ID,
+            frameRate: 15,
+            repeat: 0
+            });
         
 
         
@@ -135,7 +155,27 @@ export default class Level1 extends Phaser.Scene
             Global.ENEMIES.BUNNY.ANIM,
             Global.ENEMIES.BUNNY.SPEED);
 
+        this.chickenGroup = new Enemies(
+            this, 
+            Global.MAPS.ENEMIES, 
+            Global.ENEMIES.CHICKEN.ID,
+            Global.ENEMIES.CHICKEN.ANIM,
+            Global.ENEMIES.CHICKEN.SPEED);
+
+
+    
         this.physics.add.collider(this.bunnyGroup, this.layerMapLevel);
+        this.physics.add.collider(this.chickenGroup, this.layerMapLevel);
+
+       this.physics.add.overlap(this.player, this.bunnyGroup, this.player.enemyTouch,null, this);
+       this.physics.add.overlap(this.player, this.chickenGroup, this.player.enemyTouch, null, this);
+
+       // Moving Platforms
+       this.movingPlatformsX = new MovingPlatforms(this, Global.MAPS.MOVINGPLATFORMS, Global.MOVINGPLATFORM.ID, Global.MOVINGPLATFORM.SPEED, true);
+       this.movingPlatformsY = new MovingPlatforms(this, Global.MAPS.MOVINGPLATFORMS, Global.MOVINGPLATFORM.ID, Global.MOVINGPLATFORM.SPEED, false);
+
+       this.physics.add.collider(this.player, [this.movingPlatformsX, this.movingPlatformsY]);
+       this.physics.add.collider(this.layerMapLevel, [this.movingPlatformsX, this.movingPlatformsY]);
 
     }
 
@@ -150,6 +190,10 @@ export default class Level1 extends Phaser.Scene
         }
 
         this.player.update();
+        this.bunnyGroup.update();
+        this.chickenGroup.update();
+        this.movingPlatformsX.update();
+        this.movingPlatformsY.update();
 
         // Time management 
         if((this.seconds != Math.floor(Math.abs(time / 1000))) && !this.timeOut){

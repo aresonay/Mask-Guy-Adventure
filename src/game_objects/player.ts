@@ -1,4 +1,5 @@
 import Global from "../global";
+import Level1 from "../scenes/level1";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite{
        
@@ -9,7 +10,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
     private spaceKey: Phaser.Input.Keyboard.Key;
 
 
-    public scene : Phaser.Scene;
+    public scene : Level1;
+
+    private waitingTimeForCollisionActive: boolean;
 
 
     constructor(config: any){
@@ -35,6 +38,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
 
 
     update(): void {
+
+        
         
         // Motion control 
         if(this.WASDkeys.A.isDown || this.cursors.left.isDown){
@@ -60,5 +65,59 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
         }
 
     }
+
+
+    /* 
+        This method handles the collision between the player and an enemy object 
+         * The player loses life if an enemy touches him 
+         * If player falls over enemy from up enemy is beaten, disappear an increase player score 
+         * 'this' is from where this method is called
+         * @param player
+         * @param enemy
+    */
+
+     public enemyTouch(player: Player, enemy: Phaser.Physics.Arcade.Sprite): void{
+
+            if(player.body.velocity.y > 100 && enemy.body.touching.up && player.body.touching.down){
+                if(!player.waitingTimeForCollisionActive){
+                    let posX = enemy.x;
+                    let posY = enemy.y;
+                    enemy.destroy();
+
+                    // Increase player score in 100 
+                    player.scene.increaseScore(100);
+                    player.scene.registry.set(Global.REGISTRY.SCORE, player.scene.getScore());
+                    player.scene.events.emit(Global.EVENTS.SCORE);
+
+                    // Explosion Animations
+                    let explosion : Phaser.GameObjects.Sprite = player.scene.add.sprite(posX, posY, Global.ENEMIES.EXPLOSION.ID);
+                    explosion.play(Global.ENEMIES.EXPLOSION.ANIM);
+                    explosion.once('animationcomplete', () => {
+                        explosion.destroy();
+                    });
+
+                } 
+            }else if(!player.waitingTimeForCollisionActive){
+                    // Substract life and update HUD 
+                    player.scene.lives--;
+                    player.scene.registry.set(Global.REGISTRY.LIVES, player.scene.lives);
+                    player.scene.events.emit(Global.EVENTS.LIVES);
+
+                    // Active Waiting time for collision 
+                    player.waitingTimeForCollisionActive = true;
+                    // The player turns red 
+                    player.tint = 0xff0000;
+
+                    player.scene.time.addEvent({
+                        delay: 600, 
+                        callback: () => {
+                            player.waitingTimeForCollisionActive = false;
+                            player.tint = 0xffffff;
+                        }
+
+                    });
+
+                }
+     }
     
 }
