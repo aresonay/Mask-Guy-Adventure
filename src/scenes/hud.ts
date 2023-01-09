@@ -2,9 +2,9 @@ import Global from "../global";
 
 export default class HUD extends Phaser.Scene {
 
-    private livesTxt : Phaser.GameObjects.Text;
-    private scoreTxt: Phaser.GameObjects.Text;
-    private clockTxt: Phaser.GameObjects.Text;
+    private livesTxt : Phaser.GameObjects.BitmapText;
+    private scoreTxt: Phaser.GameObjects.BitmapText;
+    private clockTxt: Phaser.GameObjects.BitmapText;
     
     private width: number;
     private height: number;
@@ -26,14 +26,14 @@ export default class HUD extends Phaser.Scene {
         level1.events.on(Global.EVENTS.SCORE, this.updateScore, this);
         level1.events.on(Global.EVENTS.CLOCK, this.updateClock, this);
 
-        this.livesTxt = this.add.text(20, 20, Global.HUD.LIVES + this.registry.get(Global.REGISTRY.LIVES), {fontSize: '32px', color: '#FFFFFF'});
-        this.scoreTxt = this.add.text(this.width - 50,  20, '000', {fontSize: '20px', color: '#FFFFFF'});
+        this.livesTxt = this.add.bitmapText(20, 20, Global.FONTS.BITMAP ,Global.HUD.LIVES + this.registry.get(Global.REGISTRY.LIVES), 20);
+        this.scoreTxt = this.add.bitmapText(this.width - 50,  20, Global.FONTS.BITMAP , '000', 20);
 
-        this.clockTxt = this.add.text(this.width / 2, 20, '05:00', {fontSize: '20px', color: '#FFFFFF'});
+        this.clockTxt = this.add.bitmapText(this.width / 2, 20, Global.FONTS.BITMAP ,'05:00', 20);
     }
 
     private updateLives(): void {
-        this.livesTxt.text = "Vidas: " + this.registry.get('lives');
+        this.livesTxt.text = Global.HUD.LIVES + this.registry.get('lives');
         
     }
 

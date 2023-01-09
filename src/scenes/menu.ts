@@ -4,6 +4,8 @@ export default class Menu extends Phaser.Scene {
     private width: number;
     private height: number;
 
+    private soundtrackMenu : Phaser.Sound.BaseSound;
+
     constructor(){
         super(Global.SCENES.MENU); 
     }
@@ -11,6 +13,14 @@ export default class Menu extends Phaser.Scene {
     init(){
         this.width = this.cameras.main.width;
         this.height = this.cameras.main.height;
+
+        this.sound.stopAll();
+    }
+
+
+    preload(): void{
+        this.soundtrackMenu = this.sound.add(Global.SOUNDS.SOUNDTRACK+0, {loop:true});
+        this.soundtrackMenu.play();
     }
 
     create(){
@@ -28,6 +38,7 @@ export default class Menu extends Phaser.Scene {
 
     changeScene(playTxt: Phaser.GameObjects.BitmapText, scene: string) {
         playTxt.on('pointerdown', () => {
+            this.sound.stopAll();
             this.scene.start(scene);
             this.scene.start(Global.SCENES.HUD);
             this.scene.bringToTop(Global.SCENES.HUD);

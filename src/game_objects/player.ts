@@ -14,6 +14,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
 
     private waitingTimeForCollisionActive: boolean;
 
+    private collecting: boolean;
+
+    // Player sounds
+    private jumpAudio : Phaser.Sound.BaseSound;
+    private fallOver: Phaser.Sound.BaseSound;
+    private collectItemAudio : Phaser.Sound.BaseSound;
+    private damageAudio : Phaser.Sound.BaseSound;
 
     constructor(config: any){
         super(config.scene, config.x, config.y, config.texture);
@@ -29,9 +36,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.WASDkeys = this.scene.input.keyboard.addKeys('W,A,S,D');
         this.spaceKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-   
-        
         this.play(Global.PLAYER.ANIMATIONS.IDLE);
+
+
+        this.waitingTimeForCollisionActive = false;
+        this.collecting = false;
+        
+        // Add sounds to scene 
+        this.jumpAudio = this.scene.sound.add(Global.SOUNDS.EFFECTS.JUMP);
+        this.fallOver = this.scene.sound.add(Global.SOUNDS.EFFECTS.FALLOVERENEMY);
+        this.collectItemAudio = this.scene.sound.add(Global.SOUNDS.EFFECTS.ITEMCOLLECTED);
+        this.damageAudio = this.scene.sound.add(Global.SOUNDS.EFFECTS.LIVEDOWN);
+       
    
     }
 
@@ -62,6 +78,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
             this.setVelocityY(-300);
             this.anims.stop();
             this.setTexture(Global.PLAYER.ID, Global.PLAYER.ANIMATIONS.JUMP);
+            this.jumpAudio.play();
         }
 
     }
@@ -80,6 +97,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
 
             if(player.body.velocity.y > 100 && enemy.body.touching.up && player.body.touching.down){
                 if(!player.waitingTimeForCollisionActive){
+                    player.fallOver.play();
                     let posX = enemy.x;
                     let posY = enemy.y;
                     enemy.destroy();
@@ -99,6 +117,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
                 } 
             }else if(!player.waitingTimeForCollisionActive){
                     // Substract life and update HUD 
+                    player.damageAudio.play();
                     player.scene.lives--;
                     player.scene.registry.set(Global.REGISTRY.LIVES, player.scene.lives);
                     player.scene.events.emit(Global.EVENTS.LIVES);
@@ -118,6 +137,36 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
                     });
 
                 }
+     }
+
+
+     public collect(player: Player, object: Phaser.Physics.Arcade.Sprite): void{
+        if(!player.collecting){
+            player.collectItemAudio.play();
+            player.collecting = true;
+
+            // Increase score
+            player.scene.score += 50;
+            player.scene.registry.set(Global.REGISTRY.SCORE, player.scene.score);
+            player.scene.events.emit(Global.EVENTS.SCORE);
+
+            //player.collectAudio.play();
+
+            // Make anim to disappear the item 
+            player.scene.tweens.add({
+                targets: object, 
+                y: object.y - 100,
+                alpha: 0,
+                duration: 800, 
+                ease: "Cubic.easeOut",
+                callbackScope: this,
+                onComplete: () => {
+                    player.collecting = false;
+                    object.destroy();
+                }
+            });
+        }
+        
      }
     
 }

@@ -2,6 +2,7 @@ import Global from "../global";
 import Player from "../game_objects/player";
 import Enemies from "../game_objects/enemies";
 import MovingPlatforms from "../game_objects/moving-platforms";
+import Collectibles from "../game_objects/collectibles";
 
 export default class Level1 extends Phaser.Scene
 {
@@ -31,6 +32,15 @@ export default class Level1 extends Phaser.Scene
     private movingPlatformsX: MovingPlatforms;
     private movingPlatformsY: MovingPlatforms;
 
+    // Soundtrack 
+    private soundtrackLevel: Phaser.Sound.BaseSound;
+
+    // Collectibles
+    private applesGroup : Collectibles;
+    private cherriesGroup: Collectibles;
+    private pineapplesGroup: Collectibles;
+
+
     public increaseScore(increasement: number): void {
         this.score += increasement;
     }
@@ -55,9 +65,15 @@ export default class Level1 extends Phaser.Scene
         this.seconds = 1;
         this.timeRemaining = 99;
         this.timeOut = false;
+        this.sound.stopAll();
 
     }
 
+
+    preload() : void {
+        this.soundtrackLevel = this.sound.add(Global.SOUNDS.SOUNDTRACK+1, {loop:true});
+        this.soundtrackLevel.play();
+    }
 
     create ()
     {  
@@ -134,6 +150,7 @@ export default class Level1 extends Phaser.Scene
             {name: Global.MAPS.FINALPOSITION})[0];
 
         this.physics.world.enable(finalObject);
+        finalObject.body.setImmovable(true);
         finalObject.body.setAllowGravity(false);
         finalObject.setTexture(Global.OBJECTS.FINAL);
         finalObject.body.setSize(40,50);
@@ -141,11 +158,7 @@ export default class Level1 extends Phaser.Scene
 
 
         // Collision for final Sprite, and ending level 
-        this.physics.add.collider(this.player, finalObject, () => {
-            this.scene.stop(Global.SCENES.LEVEL1);
-            this.scene.stop(Global.SCENES.HUD);
-            this.scene.start(Global.SCENES.MENU);
-        });
+        this.physics.add.collider(this.player, finalObject, () => this.returnToMenu());
 
 
         this.bunnyGroup = new Enemies(
@@ -177,17 +190,22 @@ export default class Level1 extends Phaser.Scene
        this.physics.add.collider(this.player, [this.movingPlatformsX, this.movingPlatformsY]);
        this.physics.add.collider(this.layerMapLevel, [this.movingPlatformsX, this.movingPlatformsY]);
 
+
+      // Collectibles 
+      this.applesGroup = new Collectibles(this, Global.MAPS.COLLECTIBLES, Global.COLLECTABLES.APPLE.ID, Global.COLLECTABLES.APPLE.ANIM);
+      this.physics.add.overlap(this.player, this.applesGroup, this.player.collect, null, this);
+
+      this.cherriesGroup = new Collectibles(this, Global.MAPS.COLLECTIBLES, Global.COLLECTABLES.CHERRY.ID, Global.COLLECTABLES.CHERRY.ANIM);
+      this.physics.add.overlap(this.player, this.cherriesGroup, this.player.collect, null, this);
+
+      this.pineapplesGroup = new Collectibles(this, Global.MAPS.COLLECTIBLES, Global.COLLECTABLES.PINEAPPLE.ID, Global.COLLECTABLES.PINEAPPLE.ANIM);
+      this.physics.add.overlap(this.player, this.pineapplesGroup, this.player.collect, null, this);
+
     }
 
 
     update(time): void {
         this.background.tilePositionY -= 0.4;
-
-        if(parseInt(this.registry.get(Global.REGISTRY.LIVES)) === 0){
-            this.scene.stop(Global.SCENES.LEVEL1);
-            this.scene.stop(Global.SCENES.HUD);
-            this.scene.start(Global.SCENES.MENU);
-        }
 
         this.player.update();
         this.bunnyGroup.update();
@@ -215,12 +233,21 @@ export default class Level1 extends Phaser.Scene
 
             if(this.timeRemaining == 0){
                 this.timeOut = true;
-                this.scene.stop(Global.SCENES.LEVEL1);
-                this.scene.stop(Global.SCENES.HUD);
-                this.scene.start(Global.SCENES.MENU);
             }
-        }
 
+            if(this.timeOut || this.lives <= 0) this.returnToMenu();
+        }
         
+    }
+
+
+    private returnToMenu():void{
+        this.cameras.main.fade(700, 0, 0, 0);
+        this.cameras.main.on('camerafadeoutcomplete', () => {
+            this.sound.stopAll();
+            this.scene.stop(Global.SCENES.LEVEL1);
+            this.scene.stop(Global.SCENES.HUD);
+            this.scene.start(Global.SCENES.MENU);
+        });
     }
 }

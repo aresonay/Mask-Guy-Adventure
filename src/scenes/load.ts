@@ -68,6 +68,27 @@ export default class Load extends Phaser.Scene {
             this.load.spritesheet(Global.ENEMIES.EXPLOSION.ID, 'assets/images/enemies/explosion.png', {frameWidth:25, frameHeight: 27});
             this.load.image(Global.MOVINGPLATFORM.ID, 'assets/images/platformamovil.png');
 
+            // Sounds
+            this.load.audio(Global.SOUNDS.EFFECTS.JUMP, 'assets/sounds/jump.wav');
+            this.load.audio(Global.SOUNDS.EFFECTS.FALLOVERENEMY, 'assets/sounds/kill-enemy.wav');
+            this.load.audio(Global.SOUNDS.EFFECTS.LIVEDOWN, 'assets/sounds/damage.wav');
+            this.load.audio(Global.SOUNDS.EFFECTS.ITEMCOLLECTED, 'assets/sounds/item.wav');
+
+
+            // Soundtrack 
+           
+
+            for(let i=0; i<2; i++){
+                 this.load.audio(Global.SOUNDS.SOUNDTRACK + i, `assets/sounds/soundtrack${i}.wav`);
+            }
+            
+
+            // Items Loading 
+            this.load.spritesheet(Global.COLLECTABLES.APPLE.ID, 'assets/items/Apple.png', {frameWidth: 32, frameHeight:32});
+            this.load.spritesheet(Global.COLLECTABLES.CHERRY.ID, 'assets/items/Cherries.png', {frameWidth: 32, frameHeight: 32});
+            this.load.spritesheet(Global.COLLECTABLES.PINEAPPLE.ID, 'assets/items/Pineapple.png', {frameWidth: 32, frameHeight: 32});
+
+
     }
 
 

@@ -8,7 +8,7 @@ const Global = {
         PLAY: 'JUGAR'
     },
     HUD:{
-        LIVES: 'Vidas: '
+        LIVES: 'VIDAS: '
     }, 
     SCENES:{
         LOAD: 'Load',
@@ -32,7 +32,8 @@ const Global = {
         ENEMIES: 'enemies',
         MOVINGPLATFORMS: 'moving-platforms',
         MOVINGPLATFORM_Y: 'vertical',
-        MOVINGPLATFORM_X: 'horizontal'
+        MOVINGPLATFORM_X: 'horizontal',
+        COLLECTIBLES: 'collectibles'
 
     },
     BACKGROUNDS: {
@@ -84,7 +85,31 @@ const Global = {
     MOVINGPLATFORM:{
         ID:'moving-platform',
         SPEED: 60
+    },
+    SOUNDS: {
+        EFFECTS: {
+            JUMP: 'jump',
+            FALLOVERENEMY: 'fallover',
+            LIVEDOWN: 'livedown',
+            ITEMCOLLECTED: 'itemcollected'
+        },
+        SOUNDTRACK: 'soundtrack'
+    },
+    COLLECTABLES: {
+        APPLE: {
+            ID:'apple',
+            ANIM: 'appleAnim'
+        },
+        CHERRY:{
+            ID: 'cherry',
+            ANIM: 'cherryAnim'
+        },
+        PINEAPPLE: {
+            ID: 'pineapple',
+            ANIM: 'pineappleAnim'
+        }
     }
+
 }
 
 export default Global;
