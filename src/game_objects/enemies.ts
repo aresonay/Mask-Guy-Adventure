@@ -1,15 +1,16 @@
 import Level1 from "../scenes/level1";
 import Global from "../global";
+import LevelController from "../scenes/level-controller";
 
 
 export default class Enemies extends Phaser.Physics.Arcade.Group {
 
     // Class Atributes
-    public scene: Level1;
+    public scene: LevelController;
     private speed: number;
 
 
-    constructor(scene: Level1, objectName: string, objectID: string, animObject: string, speed: number){
+    constructor(scene: LevelController, objectName: string, objectID: string, animObject: string, speed: number){
         super(scene.physics.world, scene);
 
         this.scene = scene;

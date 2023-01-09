@@ -1,5 +1,6 @@
 import Global from "../global";
 import Level1 from "../scenes/level1";
+import LevelController from "../scenes/level-controller";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite{
        
@@ -10,7 +11,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
     private spaceKey: Phaser.Input.Keyboard.Key;
 
 
-    public scene : Level1;
+    public scene : LevelController;
 
     private waitingTimeForCollisionActive: boolean;
 

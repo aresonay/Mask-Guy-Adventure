@@ -1,15 +1,16 @@
 import Global from "../global";
-import Level1 from "../scenes/level1";
+import LevelController from "../scenes/level-controller";
+
 
 
 export default class MovingPlatforms extends Phaser.Physics.Arcade.Group {
     
     
-    public scene:Level1;
+    public scene:LevelController;
     private speed : number;
     private horizontal: boolean;
 
-    constructor(scene: Level1, ObjectName: string, ObjectId: string, speed: number, horizontal: boolean){
+    constructor(scene: LevelController, ObjectName: string, ObjectId: string, speed: number, horizontal: boolean){
         super(scene.physics.world, scene);
 
         this.scene = scene;

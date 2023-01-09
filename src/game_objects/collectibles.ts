@@ -1,13 +1,14 @@
 import Global from "../global";
-import Level1 from "../scenes/level1";
+import LevelController from "../scenes/level-controller";
+
 
 
 export default class Collectibles extends Phaser.Physics.Arcade.Group {
 
-    public scene : Level1;
+    public scene : LevelController;
 
 
-    constructor(scene: Level1, objectName: string, objectId: string, objectAnim: string){
+    constructor(scene: LevelController, objectName: string, objectId: string, objectAnim: string){
         super(scene.physics.world, scene);
 
         this.addMultiple(this.scene.tileMap.createFromObjects(objectName, {name: objectId, key: objectId}));
