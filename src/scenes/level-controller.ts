@@ -77,8 +77,12 @@ export default class LevelController extends Phaser.Scene {
 
 
     preload(): void{
-        this.soundtrackLevel = this.sound.add(Global.SOUNDS.SOUNDTRACK+1, {loop:true});
-        this.soundtrackLevel.play();
+        if(this.registry.get(Global.REGISTRY.MUSIC) == Global.SETTINGS.SOUNDON){
+            this.soundtrackLevel = this.sound.add(Global.SOUNDS.SOUNDTRACK+1, {loop:true});
+            this.soundtrackLevel.play();
+        }
+       
+
     }
 
 

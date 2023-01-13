@@ -79,7 +79,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
             this.setVelocityY(-300);
             this.anims.stop();
             this.setTexture(Global.PLAYER.ID, Global.PLAYER.ANIMATIONS.JUMP);
-            this.jumpAudio.play();
+            this.playAudio(this.jumpAudio);
         }
 
     }
@@ -98,7 +98,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
 
             if(player.body.velocity.y > 100 && enemy.body.touching.up && player.body.touching.down){
                 if(!player.waitingTimeForCollisionActive){
-                    player.fallOver.play();
+                    player.playAudio(player.fallOver);
                     let posX = enemy.x;
                     let posY = enemy.y;
                     enemy.destroy();
@@ -118,7 +118,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
                 } 
             }else if(!player.waitingTimeForCollisionActive){
                     // Substract life and update HUD 
-                    player.damageAudio.play();
+                    player.playAudio(player.damageAudio);
                     player.scene.lives--;
                     player.scene.registry.set(Global.REGISTRY.LIVES, player.scene.lives);
                     player.scene.events.emit(Global.EVENTS.LIVES);
@@ -143,7 +143,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
 
      public collect(player: Player, object: Phaser.Physics.Arcade.Sprite): void{
         if(!player.collecting){
-            player.collectItemAudio.play();
+            player.playAudio(player.collectItemAudio);
             player.collecting = true;
 
             // Increase score
@@ -169,5 +169,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
         }
         
      }
+
+     playAudio(audio: Phaser.Sound.BaseSound) : void {
+        if(this.scene.registry.get(Global.REGISTRY.SFX) == Global.SETTINGS.SOUNDON){
+            audio.play();
+        }
+     }
+
+
     
 }

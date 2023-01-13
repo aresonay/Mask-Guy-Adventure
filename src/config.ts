@@ -2,6 +2,7 @@ import Level1 from './scenes/level1';
 import Load from './scenes/load';
 import Menu from './scenes/menu';
 import HUD from './scenes/hud';
+import Settings from './scenes/settings';
 
 
 const Config = {
@@ -9,7 +10,7 @@ const Config = {
     backgroundColor: '#125555',
     width: 800,
     height: 600,
-    scene: [Load, Menu, Level1, HUD],
+    scene: [Load, Menu, Level1, HUD, Settings],
     pixelArt: true,
     physics: {
         default: 'arcade',

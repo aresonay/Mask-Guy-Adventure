@@ -5,7 +5,10 @@ const Global = {
         CLOCK: 'clock'
     },
     MENU:{
-        PLAY: 'JUGAR'
+        PLAY: 'JUGAR',
+        TITLE: 'MASKED GUY ADVENTURE',
+        SETTINGS: 'AJUSTES',
+        CREDITS: 'CREDITOS'
     },
     HUD:{
         LIVES: 'VIDAS: '
@@ -14,13 +17,17 @@ const Global = {
         LOAD: 'Load',
         MENU: 'Menu',
         LEVEL1: 'Level1',
-        HUD: 'HUD'
+        HUD: 'HUD',
+        SETTINGS: 'Settings',
+        CREDITS: 'Credits'
 
     }, 
     REGISTRY:{
         LIVES: 'lives',
         SCORE: 'score',
-        CLOCK: 'clock'
+        CLOCK: 'clock', 
+        MUSIC: 'music',
+        SFX: 'sfx'
     },
     MAPS:{
         LEVEL1:{
@@ -37,7 +44,8 @@ const Global = {
 
     },
     BACKGROUNDS: {
-        LEVEL1: 'Brown'
+        LEVEL1: 'Brown',
+        MENU: 'Brown'
     },
     FONTS: {
         JSON: 'font',
@@ -108,6 +116,13 @@ const Global = {
             ID: 'pineapple',
             ANIM: 'pineappleAnim'
         }
+    },
+    SETTINGS: {
+        GOBACK: 'VOLVER',
+        MUSIC: 'MUSICA',
+        SFX: 'SFX',
+        SOUNDON: 'SONIDO ON',
+        SOUNDOFF: 'SONIDO OFF'
     }
 
 }

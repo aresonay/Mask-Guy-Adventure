@@ -33,15 +33,22 @@ export default class Menu extends Phaser.Scene {
             Global.MENU.PLAY,
             25).setInteractive();
 
-        this.changeScene(playTxt, 'Level1');
+        const settingsTxt : Phaser.GameObjects.BitmapText = this.add.bitmapText(
+            300, 500, Global.FONTS.BITMAP, Global.MENU.SETTINGS, 20
+        ).setInteractive();
+
+        this.changeScene(playTxt, Global.SCENES.LEVEL1);
+        this.changeScene(settingsTxt, Global.SCENES.SETTINGS, false);
     }
 
-    changeScene(playTxt: Phaser.GameObjects.BitmapText, scene: string) {
+    changeScene(playTxt: Phaser.GameObjects.BitmapText, scene: string, hud: boolean = true) {
         playTxt.on('pointerdown', () => {
             this.sound.stopAll();
             this.scene.start(scene);
-            this.scene.start(Global.SCENES.HUD);
-            this.scene.bringToTop(Global.SCENES.HUD);
+            if(hud){
+                this.scene.start(Global.SCENES.HUD);
+                this.scene.bringToTop(Global.SCENES.HUD);
+            }
         });
     }
 }

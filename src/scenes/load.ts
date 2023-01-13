@@ -89,6 +89,16 @@ export default class Load extends Phaser.Scene {
             this.load.spritesheet(Global.COLLECTABLES.PINEAPPLE.ID, 'assets/items/Pineapple.png', {frameWidth: 32, frameHeight: 32});
 
 
+            // Sound icons 
+            this.load.image(Global.SETTINGS.SOUNDON, 'assets/images/sonidoon.png');
+            this.load.image(Global.SETTINGS.SOUNDOFF, 'assets/images/sonidooff.png');
+
+
+    }
+
+    create(){
+        this.registry.set(Global.REGISTRY.MUSIC, Global.SETTINGS.SOUNDON);
+        this.registry.set(Global.REGISTRY.SFX, Global.SETTINGS.SFX);
     }
 
 
