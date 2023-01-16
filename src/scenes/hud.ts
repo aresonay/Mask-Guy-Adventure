@@ -26,6 +26,11 @@ export default class HUD extends Phaser.Scene {
         level1.events.on(Global.EVENTS.SCORE, this.updateScore, this);
         level1.events.on(Global.EVENTS.CLOCK, this.updateClock, this);
 
+        const level2 : Phaser.Scene = this.scene.get(Global.SCENES.LEVEL2);
+        level2.events.on(Global.EVENTS.LIVES, this.updateLives, this);
+        level2.events.on(Global.EVENTS.SCORE, this.updateScore, this);
+        level2.events.on(Global.EVENTS.CLOCK, this.updateClock, this);
+
         this.livesTxt = this.add.bitmapText(20, 20, Global.FONTS.BITMAP ,Global.HUD.LIVES + this.registry.get(Global.REGISTRY.LIVES), 20);
         this.scoreTxt = this.add.bitmapText(this.width - 50,  20, Global.FONTS.BITMAP , '000', 20);
 

@@ -17,9 +17,11 @@ const Global = {
         LOAD: 'Load',
         MENU: 'Menu',
         LEVEL1: 'Level1',
+        LEVEL2: 'Level2',
         HUD: 'HUD',
         SETTINGS: 'Settings',
-        CREDITS: 'Credits'
+        CREDITS: 'Credits',
+        LEVELSELECTOR: 'LevelSelector'
 
     }, 
     REGISTRY:{
@@ -32,7 +34,11 @@ const Global = {
     MAPS:{
         LEVEL1:{
             TILEMAPJSON: 'level1Map',
-            LAYERPLATFORMS: 'Platforms',
+            
+        },
+        LEVEL2:{
+            TILEMAPJSON: 'level2Map',
+            
         },
         TILESET: 'tileset',
         FINALPOSITION: 'finalPosition',
@@ -40,12 +46,16 @@ const Global = {
         MOVINGPLATFORMS: 'moving-platforms',
         MOVINGPLATFORM_Y: 'vertical',
         MOVINGPLATFORM_X: 'horizontal',
-        COLLECTIBLES: 'collectibles'
+        COLLECTIBLES: 'collectibles',
+        LAYERPLATFORMS: 'Platforms',
 
     },
     BACKGROUNDS: {
         LEVEL1: 'Brown',
-        MENU: 'Brown'
+        LEVEL2: 'Yellow',        
+        MENU: 'Brown',
+        LEVELSELECTOR: 'Brown'
+
     },
     FONTS: {
         JSON: 'font',
@@ -123,6 +133,15 @@ const Global = {
         SFX: 'SFX',
         SOUNDON: 'SONIDO ON',
         SOUNDOFF: 'SONIDO OFF'
+    }, 
+    CREDITS: {
+        GAMEDEV: 'aresonay',
+        CREATEDBY: 'GAMEDEV : ARESONAY\n\nWITH PHASER 3.50 AND TYPESCRIPT',
+        ASSETS: 'SPRITES : PIXEL ADVENTURE BY PIXELFROG\n\nMUSIC : FREESOUNDS',
+        GOBAKC: 'VOLVER'
+    }, 
+    LEVELSELECTOR:{
+        GOBACK: 'VOLVER'
     }
 
 }

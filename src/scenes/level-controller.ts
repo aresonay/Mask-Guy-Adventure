@@ -76,29 +76,33 @@ export default class LevelController extends Phaser.Scene {
     }
 
 
-    preload(): void{
-        if(this.registry.get(Global.REGISTRY.MUSIC) == Global.SETTINGS.SOUNDON){
-            this.soundtrackLevel = this.sound.add(Global.SOUNDS.SOUNDTRACK+1, {loop:true});
-            this.soundtrackLevel.play();
-        }
-       
-
-    }
-
-
      /* 
         This method needs the level json info and the scroll image for background
      */  
      createLevel(jsonMap: string, scrollableImage: string):void{
 
-            // TO-DO
-            this.createLevelMap(Global.MAPS.LEVEL1.TILEMAPJSON);
-            this.createScrollableBackground(Global.BACKGROUNDS.LEVEL1);
+            this.createSoundtrack();
+            this.createLevelMap(jsonMap);
+            this.createScrollableBackground(scrollableImage);
             this.createAnims();
             this.createPlayer();
             this.createFinalObject();
             this.createMovingPlatforms();
 
+     }
+
+     createSoundtrack() : void {
+        if(this.registry.get(Global.REGISTRY.MUSIC) == Global.SETTINGS.SOUNDON){
+            this.soundtrackLevel = this.sound.add(Global.SOUNDS.SOUNDTRACK+1, {loop:true, volume: 0});
+            this.soundtrackLevel.play();
+
+            // Sound Fade in 
+            this.tweens.add({
+                targets: this.soundtrackLevel, 
+                volume: 1,
+                duration: 2000
+            });
+        }
      }
 
 
@@ -109,7 +113,7 @@ export default class LevelController extends Phaser.Scene {
          //  Tileset associated to map
          this.tileSet = this.tileMap.addTilesetImage(mapImage); 
          // Platform Layer
-         this.layerMapLevel = this.tileMap.createLayer(Global.MAPS.LEVEL1.LAYERPLATFORMS, this.tileSet);
+         this.layerMapLevel = this.tileMap.createLayer(Global.MAPS.LAYERPLATFORMS, this.tileSet);
          // Make the layer collisionable
          this.layerMapLevel.setCollisionByExclusion([-1]);
      }
@@ -189,7 +193,7 @@ export default class LevelController extends Phaser.Scene {
         this.cameras.main.fade(700, 0, 0, 0);
         this.cameras.main.on('camerafadeoutcomplete', () => {
             this.sound.stopAll();
-            this.scene.stop(Global.SCENES.LEVEL1);
+            this.scene.stop(Global.SCENES.LEVEL2);
             this.scene.stop(Global.SCENES.HUD);
             this.scene.start(Global.SCENES.MENU);
         });

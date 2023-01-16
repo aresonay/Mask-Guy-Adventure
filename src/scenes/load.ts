@@ -12,14 +12,14 @@ export default class Load extends Phaser.Scene {
 
 
     preload(): void {
-        this.cameras.main.setBackgroundColor(0x000000);
+        this.cameras.main.setBackgroundColor(0x3F2E35);
         this.createBars();
 
         this.load.on(
             'progress',
             function (value : number){
                 this.progressBar.clear();
-                this.progressBar.fillStyle(0x88e453, 1);
+                this.progressBar.fillStyle(0x2A2432, 1);
                 this.progressBar.fillRect(
                     this.cameras.main.width / 4,
                     this.cameras.main.height / 2 - 16,
@@ -44,10 +44,12 @@ export default class Load extends Phaser.Scene {
         
             // Maps Loading
             this.load.tilemapTiledJSON(Global.MAPS.LEVEL1.TILEMAPJSON, 'assets/level1.json');
+            this.load.tilemapTiledJSON(Global.MAPS.LEVEL2.TILEMAPJSON, 'assets/level2.json');
             this.load.image(Global.MAPS.TILESET, 'assets/tileset.png');
 
             // Background loading
             this.load.image(Global.BACKGROUNDS.LEVEL1, 'assets/backgrounds/Brown.png');
+            this.load.image(Global.BACKGROUNDS.LEVEL2, 'assets/backgrounds/Yellow.png');
 
             // Fonts Loading 
             this.load.json(Global.FONTS.JSON, 'assets/fonts/font.json');
